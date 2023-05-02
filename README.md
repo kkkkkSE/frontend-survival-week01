@@ -275,7 +275,7 @@ npm run watch:test
     </head>
     <body>
         <div id="root"></div>
-        <script src="./src/main.tsx"></script>
+        <script type="module" src="./src/main.tsx"></script>
     </body>
 </html>
 ```
@@ -283,12 +283,21 @@ npm run watch:test
 - `src/main.tsx`
 
 ```ts
-import * as ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 
 import App from './App';
 
-const container = document.getElementById('app');
-ReactDOM.render(<App />, container);
+function main() {
+  const container = document.getElementById('root');
+  if (!container) {
+    return;
+  }
+
+  const root = ReactDOM.createRoot(container);
+  root.render(<App />);
+}
+
+main();
 ```
 
 - `src/App.tsx`
